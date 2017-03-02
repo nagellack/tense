@@ -40,6 +40,7 @@ def run_training():
     wstep=1
     
     x = tf.placeholder(tf.float32, [None,32,32,3])
+    print "x",np.shape(x)
     W_conv1 = weight_variable([wind, wind, 3, n_1])
     b_conv1 = bias_variable([n_1])
     #x_image = tf.reshape(x, [-1,28,28,3])#!!!

@@ -15,22 +15,34 @@ flags.DEFINE_string('input_dir', 'input', 'Input Directory.')
 flags.DEFINE_string('output_dir', 'output', 'Output Directory.')
 
 def run_training():
+    sess = tf.InteractiveSession()
+    
     ###IMPORT IMAGES and LABELS
     image_file_list = os.path.join(FLAGS.input_dir, 'input.csv')
     im_list = file_io.read_file_to_string(image_file_list)
+    imy,imx=[400,600]
+    print imy,imx
+    all_data = np.zeros((len(im_list),imy,imx,3))
+    reader = tf.WholeFileReader()
     for im_loc in im_list.split("\n"):
-        image0 = Image.open(os.path.join(FLAGS.input_dir, im_loc)).resize((600, 400), PIL.Image.ANTIALIAS)
-        print np.shape(image0)
+        im = tf.train.string_input_producer([os.path.join(FLAGS.input_dir, im_loc)])
+        key, value = reader.read(im)
+        my_img = tf.image.decode_jpeg(value)
+        image = my_img.eval()
+        #print image
+        #all_data[i,:,:,:] = Image.open(os.path.join(FLAGS.input_dir, im_loc)).resize((imx, imy), PIL.Image.ANTIALIAS)
+        #print np.shape(image0)
+    print "here"
     iii = 0
     if iii ==1:
-        image0 = Image.open(imagefiles[0]).resize((600, 400), PIL.Image.ANTIALIAS)
+        image0 = Image.open(imagefiles[0]).resize((imx, imx), PIL.Image.ANTIALIAS)
         length = 2
         if length !=0:
-            all_data = np.zeros((length,400,600,3))
+            all_data = np.zeros((length,imx,imy,3))
         else:
-            all_data = np.zeros((len(imagefiles),400,600,3))
+            all_data = np.zeros((len(imagefiles),imx,imy,3))
         for i in range(len(all_data)):
-            all_data[i,:,:,:]=Image.open(imagefiles[i]).resize((600, 400), PIL.Image.ANTIALIAS)
+            all_data[i,:,:,:]=Image.open(imagefiles[i]).resize((imy,imx), PIL.Image.ANTIALIAS)
         labels = np.genfromtxt('input/train_perfect_preds.txt', delimiter=',')[0:len(all_data)]
         print np.shape(labels)
         y = np.zeros((len(all_data),196))
@@ -40,8 +52,6 @@ def run_training():
     
         ###INITIALISE ANN
         #first layer
-
-        sess = tf.InteractiveSession()
     
         n_1 = 3
         n_2 = 6
