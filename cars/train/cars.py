@@ -6,6 +6,7 @@ import PIL
 from PIL import Image
 import time
 import os
+from tensorflow.python.lib.io import file_io
 
 # Basic model parameters as external flags.
 flags = tf.app.flags
@@ -16,6 +17,9 @@ flags.DEFINE_string('output_dir', 'output', 'Output Directory.')
 def run_training():
     ###IMPORT IMAGES and LABELS
     imagefiles= glob(os.path.join(FLAGS.input_dir, '*.jpg'))
+    txt_file = os.path.join(FLAGS.input_dir, 'train_perfect_preds.txt')
+    filename_queue = file_io.read_file_to_string(txt_file)
+    print "queue", filename_queue
     print "path",os.path.join(FLAGS.input_dir, '*.jpg')
     print "path2",FLAGS.input_dir
     print "files",os.listdir(FLAGS.input_dir+"/")
