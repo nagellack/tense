@@ -17,6 +17,7 @@ def run_training():
     ###IMPORT IMAGES and LABELS
     imagefiles= glob(os.path.join(FLAGS.input_dir, '*.jpg'))
     print "path",os.path.join(FLAGS.input_dir, '*.jpg')
+    print "path2",FLAGS.input_dir
     print "files",os.listdir(FLAGS.input_dir)
     print "nFiles: ",len(imagefiles)
     image0 = Image.open(imagefiles[0]).resize((600, 400), PIL.Image.ANTIALIAS)
