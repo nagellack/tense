@@ -114,7 +114,10 @@ def max_pool_2x2(x):
 
 def main(_):
     t0=time.time()
-    run_training()
+    try:
+        run_training()
+    except Exception as e:
+        print "error",e
     print time.time()-t0
 
 if __name__ == "__main__":
