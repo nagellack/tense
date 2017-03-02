@@ -16,6 +16,8 @@ flags.DEFINE_string('output_dir', 'output', 'Output Directory.')
 def run_training():
     ###IMPORT IMAGES and LABELS
     imagefiles= glob(os.path.join(FLAGS.input_dir, '*.jpg'))
+    print "path",os.path.join(FLAGS.input_dir, '*.jpg')
+    print "images",imagefiles
     print "nFiles: ",len(imagefiles)
     image0 = Image.open(imagefiles[0]).resize((600, 400), PIL.Image.ANTIALIAS)
     length = 2
